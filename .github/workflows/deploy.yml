@@ -27,6 +27,7 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --comment "Deploy MERN App" \
             --parameters commands='[
+              "git config --system --add safe.directory /home/ssm-user/apps/MERN-E-Commerce-Store",
               "sudo chown -R ssm-user:ssm-user /home/ssm-user/apps/MERN-E-Commerce-Store",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store && git pull origin main",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store && npm install",
