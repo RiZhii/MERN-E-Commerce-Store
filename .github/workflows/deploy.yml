@@ -33,6 +33,6 @@ jobs:
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && rm -rf dist",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && npm install",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && npm run build",
-              "sudo su - ssm-user -c 'pm2 restart backend'"
+              "sudo su - ssm-user -c 'pm2 restart backend'",
               "sudo systemctl restart nginx"
             ]'
