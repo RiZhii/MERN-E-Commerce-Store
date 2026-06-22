@@ -27,13 +27,12 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --comment "Deploy MERN App" \
             --parameters commands='[
-              "git config --global --add safe.directory /home/ssm-user/apps/MERN-E-Commerce-Store",
               "sudo chown -R ssm-user:ssm-user /home/ssm-user/apps/MERN-E-Commerce-Store",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store && git pull origin main",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store && npm install",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && rm -rf dist",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && npm install",
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && npm run build",
-              "pm2 restart backend",
+              "sudo su - ssm-user -c 'pm2 restart backend'"
               "sudo systemctl restart nginx"
             ]'
