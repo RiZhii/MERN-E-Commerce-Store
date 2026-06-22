@@ -25,16 +25,15 @@ jobs:
           aws ssm send-command \
             --instance-ids "${{ secrets.INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
+            --comment "Deploy MERN App" \
             --parameters commands='[
-              "cd /home/ssm-user/apps/MERN-E-Commerce-Store",
-              "git pull origin main",
+              "git config --global --add safe.directory /home/ssm-user/apps/MERN-E-Commerce-Store",
               "sudo chown -R ssm-user:ssm-user /home/ssm-user/apps/MERN-E-Commerce-Store",
-              "npm install",
-              "cd frontend",
-              "rm -rf dist",
-              "npm install",
-              "npm run build",
-              "cd ..",
+              "cd /home/ssm-user/apps/MERN-E-Commerce-Store && git pull origin main",
+              "cd /home/ssm-user/apps/MERN-E-Commerce-Store && npm install",
+              "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && rm -rf dist",
+              "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && npm install",
+              "cd /home/ssm-user/apps/MERN-E-Commerce-Store/frontend && npm run build",
               "pm2 restart backend",
               "sudo systemctl restart nginx"
             ]'
