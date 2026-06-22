@@ -1,4 +1,4 @@
-name: Deploy MERN Application
+name: Deploy to Private EC2 via SSM
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
@@ -20,17 +20,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy to EC2 using SSM
+      - name: Deploy through SSM
         run: |
           aws ssm send-command \
             --instance-ids "${{ secrets.INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
-            --comment "Deploy MERN Application" \
+            --comment "Deploy MERN App" \
             --parameters commands='[
               "cd /home/ssm-user/apps/MERN-E-Commerce-Store",
+              "git fetch origin main",
               "git pull origin main",
+              "sudo chown -R ssm-user:ssm-user /home/ssm-user/apps/MERN-E-Commerce-Store",
               "npm install",
-              "cd frontend && npm install && npm run build",
+              "cd frontend",
+              "rm -rf dist",
+              "npm install",
+              "npm run build",
               "cd ..",
               "pm2 restart backend",
               "sudo systemctl restart nginx"
